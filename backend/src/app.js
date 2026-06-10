@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { corsOptions } from "./config/cors.js";
+import appCors, { corsOptions } from "./config/cors.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { notFoundMiddleware } from "./middlewares/notFound.middleware.js";
 
@@ -32,7 +32,7 @@ import settingsRoutes from "./modules/settings/settings.routes.js";
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(appCors);
 app.options("*", cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
