@@ -6,7 +6,9 @@ import { ENV } from "./env.js";
 
 let pool;
 
-export async function initDb() {
+function createPool() {
+  if (pool) return pool;
+
   pool = mysql.createPool({
     host: ENV.DB_HOST,
     port: Number(ENV.DB_PORT),
@@ -19,13 +21,19 @@ export async function initDb() {
     namedPlaceholders: true,
   });
 
+  return pool;
+}
+
+export async function initDb() {
+  const activePool = createPool();
+
   // Ensure schema exists
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const schemaPath = path.join(__dirname, "..", "database", "schema.sql");
 
   const sql = fs.readFileSync(schemaPath, "utf-8");
-  const conn = await pool.getConnection();
+  const conn = await activePool.getConnection();
   try {
     // MySQL driver doesn't support multi statements by default in pool config;
     // execute by splitting on `;` safely for this simple schema file.
@@ -41,10 +49,9 @@ export async function initDb() {
     conn.release();
   }
 
-  return pool;
+  return activePool;
 }
 
 export function db() {
-  if (!pool) throw new Error("DB not initialized. Call initDb() first.");
-  return pool;
+  return createPool();
 }

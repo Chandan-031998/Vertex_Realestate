@@ -30,9 +30,6 @@ import accountsRoutes from "./modules/accounts/accounts.routes.js";
 import commissionsRoutes from "./modules/commissions/commissions.routes.js";
 import settingsRoutes from "./modules/settings/settings.routes.js";
 
-import "./modules/bookings/hold.scheduler.js";
-import "./modules/notifications/scheduler.js";
-
 const app = express();
 
 app.use(cors(corsOptions));

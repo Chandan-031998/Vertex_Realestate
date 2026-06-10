@@ -15,16 +15,19 @@ const PORT = process.env.PORT || 4000;
 
 async function boot() {
   await initDb();
-  if (!process.env.VERCEL) {
-    app.listen(PORT, () => {
-      console.log(`✅ Backend running on http://localhost:${PORT}`);
-    });
-  }
+  await import("./src/modules/bookings/hold.scheduler.js");
+  await import("./src/modules/notifications/scheduler.js");
+
+  app.listen(PORT, () => {
+    console.log(`✅ Backend running on http://localhost:${PORT}`);
+  });
 }
 
-boot().catch((e) => {
-  console.error("❌ Failed to boot:", e);
-  process.exit(1);
-});
+if (!process.env.VERCEL) {
+  boot().catch((e) => {
+    console.error("❌ Failed to boot:", e);
+    process.exit(1);
+  });
+}
 
 export default app;
