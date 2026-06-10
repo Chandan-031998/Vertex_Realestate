@@ -30,4 +30,6 @@ if (!process.env.VERCEL && process.env.NODE_ENV !== "production") {
   });
 }
 
-export default app;
+export default function handler(req, res) {
+  return app(req, res);
+}
