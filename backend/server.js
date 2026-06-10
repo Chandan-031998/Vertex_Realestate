@@ -15,12 +15,16 @@ const PORT = process.env.PORT || 4000;
 
 async function boot() {
   await initDb();
-  app.listen(PORT, () => {
-    console.log(`✅ Backend running on http://localhost:${PORT}`);
-  });
+  if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+      console.log(`✅ Backend running on http://localhost:${PORT}`);
+    });
+  }
 }
 
 boot().catch((e) => {
   console.error("❌ Failed to boot:", e);
   process.exit(1);
 });
+
+export default app;

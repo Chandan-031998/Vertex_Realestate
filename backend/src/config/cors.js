@@ -1,13 +1,11 @@
-import { ENV } from "./env.js";
-
 export const corsOptions = {
-  origin: (origin, cb) => {
-    // allow server-to-server / curl requests
-    if (!origin) return cb(null, true);
-    const allowed = String(ENV.CORS_ORIGIN || "").split(",").map(s => s.trim());
-    if (allowed.includes(origin)) return cb(null, true);
-    return cb(new Error(`CORS blocked: ${origin}`), false);
-  },
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://vertex-realestate.vercel.app",
+  ],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["Content-Disposition"],
 };

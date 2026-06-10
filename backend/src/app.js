@@ -36,6 +36,7 @@ import "./modules/notifications/scheduler.js";
 const app = express();
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -45,9 +46,7 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Health
-app.get("/api/health", (req, res) =>
-  res.json({ ok: true, ts: new Date().toISOString() })
-);
+app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
