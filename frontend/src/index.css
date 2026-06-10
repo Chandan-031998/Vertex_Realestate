@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-primary: #3b82f6;
+  --brand-accent: #8b5cf6;
+  --brand-teal: #14b8a6;
+  --bg-0: #f4f7ff;
+  --bg-1: #f8faff;
+  --text-0: #0f172a;
+  --text-1: #475569;
+  --glass-bg: rgba(255, 255, 255, 0.66);
+  --glass-border: rgba(255, 255, 255, 0.65);
+}
+
+html[data-theme-mode="dark"],
+html.dark {
+  --bg-0: #050816;
+  --bg-1: #0a1022;
+  --text-0: #e2e8f0;
+  --text-1: #94a3b8;
+  --glass-bg: rgba(17, 25, 40, 0.58);
+  --glass-border: rgba(148, 163, 184, 0.16);
+}
+
+body {
+  @apply font-sans antialiased;
+  color: var(--text-0);
+  background: var(--bg-0);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 20%, color-mix(in oklab, var(--brand-primary) 20%, transparent), transparent 42%),
+    radial-gradient(circle at 82% 8%, color-mix(in oklab, var(--brand-accent) 22%, transparent), transparent 46%),
+    radial-gradient(circle at 82% 80%, color-mix(in oklab, var(--brand-teal) 16%, transparent), transparent 44%),
+    radial-gradient(circle at 15% 88%, color-mix(in oklab, var(--brand-primary) 14%, transparent), transparent 42%);
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.35;
+  z-index: -1;
+}
+
+html[data-ui-style="compact"] body {
+  font-size: 14px;
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 35px rgba(18, 34, 74, 0.16);
+    @apply rounded-2xl;
+  }
+
+  .surface-card {
+    @apply glass transition-all duration-300;
+  }
+
+  .surface-card:hover {
+    transform: translateY(-2px) scale(1.002);
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.12);
+  }
+
+  .primary-btn {
+    @apply inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300;
+    background-image: linear-gradient(135deg, var(--brand-primary), var(--brand-accent), var(--brand-teal));
+    background-size: 180% 180%;
+  }
+
+  .primary-btn:hover {
+    background-position: 100% 40%;
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 8px 26px rgba(59, 130, 246, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .ghost-btn {
+    @apply rounded-2xl px-4 py-2.5 text-sm font-medium transition-all duration-200 border;
+    background: color-mix(in oklab, var(--glass-bg) 86%, transparent);
+    border-color: color-mix(in oklab, var(--brand-primary) 20%, #cbd5e1);
+    color: var(--text-0);
+  }
+
+  .ghost-btn:hover {
+    border-color: color-mix(in oklab, var(--brand-accent) 45%, #cbd5e1);
+    transform: translateY(-1px);
+  }
+
+  .input-shell {
+    @apply relative;
+  }
+
+  .input-shell input,
+  .input-shell textarea,
+  .input-shell select,
+  .modern-input,
+  .modern-select {
+    @apply w-full rounded-2xl border px-3 py-3 text-sm outline-none transition-all duration-200;
+    border-color: color-mix(in oklab, var(--brand-primary) 15%, #cbd5e1);
+    background: color-mix(in oklab, var(--glass-bg) 90%, transparent);
+    color: var(--text-0);
+  }
+
+  .input-shell input:focus,
+  .input-shell textarea:focus,
+  .input-shell select:focus,
+  .modern-input:focus,
+  .modern-select:focus {
+    border-color: color-mix(in oklab, var(--brand-accent) 55%, #6366f1);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-primary) 18%, transparent);
+  }
+
+  input.border.rounded-xl,
+  select.border.rounded-xl,
+  textarea.border.rounded-xl,
+  input.border.rounded,
+  select.border.rounded,
+  textarea.border.rounded {
+    border-color: color-mix(in oklab, var(--brand-primary) 15%, #cbd5e1);
+    background: color-mix(in oklab, var(--glass-bg) 90%, transparent);
+    color: var(--text-0);
+  }
+
+  input.border.rounded-xl:focus,
+  select.border.rounded-xl:focus,
+  textarea.border.rounded-xl:focus,
+  input.border.rounded:focus,
+  select.border.rounded:focus,
+  textarea.border.rounded:focus {
+    border-color: color-mix(in oklab, var(--brand-accent) 55%, #6366f1);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-primary) 18%, transparent);
+    outline: none;
+  }
+
+  .floating-label {
+    @apply absolute left-3 top-3 text-sm pointer-events-none transition-all duration-200;
+    color: var(--text-1);
+  }
+
+  .input-shell input:focus + .floating-label,
+  .input-shell input:not(:placeholder-shown) + .floating-label,
+  .input-shell textarea:focus + .floating-label,
+  .input-shell textarea:not(:placeholder-shown) + .floating-label {
+    transform: translateY(-1.2rem) scale(0.88);
+    transform-origin: left;
+    color: color-mix(in oklab, var(--brand-accent) 55%, #334155);
+  }
+
+  .app-page {
+    @apply animate-fade-slide;
+  }
+
+  .modern-table {
+    @apply w-full text-sm;
+  }
+
+  .modern-table thead {
+    background: color-mix(in oklab, var(--brand-primary) 10%, transparent);
+  }
+
+  .modern-table tbody tr {
+    @apply transition-all duration-150;
+    border-top: 1px solid color-mix(in oklab, var(--brand-primary) 8%, #e2e8f0);
+  }
+
+  .modern-table tbody tr:hover {
+    background: color-mix(in oklab, var(--brand-primary) 8%, transparent);
+    box-shadow: inset 3px 0 0 color-mix(in oklab, var(--brand-accent) 70%, #6366f1);
+  }
+
+  .kpi-value {
+    @apply text-3xl font-extrabold tracking-tight;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-2xl bg-slate-200/60 dark:bg-slate-700/40;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    animation: shimmer 1.25s infinite;
+  }
+
+  .toast-enter {
+    animation: toastIn 320ms ease-out;
+  }
+
+  .modal-enter {
+    animation: modalIn 240ms ease-out;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
