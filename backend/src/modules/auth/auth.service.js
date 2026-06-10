@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { db } from "../../config/db.js";
-import { ENV } from "../../config/env.js";
+import { ENV, requireEnv } from "../../config/env.js";
 
 export async function registerUser({ name, email, password, role }) {
   const pool = db();
@@ -39,6 +39,6 @@ export async function loginUser({ email, password }) {
     err.status = 401;
     throw err;
   }
-  const token = jwt.sign({ id: u.id, name: u.name, email: u.email, role: u.role }, ENV.JWT_SECRET, { expiresIn: ENV.JWT_EXPIRES_IN });
+  const token = jwt.sign({ id: u.id, name: u.name, email: u.email, role: u.role }, requireEnv("JWT_SECRET"), { expiresIn: ENV.JWT_EXPIRES_IN });
   return { token, user: { id: u.id, name: u.name, email: u.email, role: u.role } };
 }

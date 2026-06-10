@@ -2,7 +2,7 @@ import mysql from "mysql2/promise";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { ENV } from "./env.js";
+import { ENV, requireEnv } from "./env.js";
 
 let pool;
 
@@ -10,12 +10,12 @@ function createPool() {
   if (pool) return pool;
 
   pool = mysql.createPool({
-    host: ENV.DB_HOST,
+    host: requireEnv("DB_HOST"),
     port: Number(ENV.DB_PORT),
     family: Number(ENV.DB_FAMILY || 4),
-    user: ENV.DB_USER,
-    password: ENV.DB_PASSWORD,
-    database: ENV.DB_NAME,
+    user: requireEnv("DB_USER"),
+    password: requireEnv("DB_PASSWORD"),
+    database: requireEnv("DB_NAME"),
     waitForConnections: true,
     connectionLimit: 10,
     namedPlaceholders: true,
