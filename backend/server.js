@@ -23,7 +23,7 @@ async function boot() {
   });
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (!process.env.VERCEL && process.env.NODE_ENV !== "production") {
   boot().catch((e) => {
     console.error("❌ Failed to boot:", e);
     process.exit(1);
