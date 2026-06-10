@@ -38,7 +38,9 @@ r.patch("/followups/tasks/:id/status", requirePerm(PERMISSIONS.FOLLOWUP_MANAGE),
 r.post("/escalate/stale", requirePerm(PERMISSIONS.STALE_LEAD_ESCALATE), c.escalateStale);
 
 // Bulk import (CSV)
-const upload = multer({ dest: "tmp/" });
+const importDir = joinUpload("leads", "imports");
+fs.mkdirSync(importDir, { recursive: true });
+const upload = multer({ dest: importDir });
 r.post("/import/csv", requirePerm(PERMISSIONS.LEAD_WRITE), upload.single("file"), async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ ok:false, message:"file required" });
